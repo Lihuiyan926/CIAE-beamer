@@ -1,0 +1,364 @@
+\documentclass[aspectratio=169]{beamer}
+\usepackage{ctex, hyperref}
+%\usepackage[T1]{fontenc}
+% \usefonttheme{professionalfonts} % 使用专业字体主题
+
+% 在加载 fontspec 之前设置字体族
+\renewcommand{\sfdefault}{cmss} % 设置无衬线字体族为 Computer Modern Sans Serif
+\usepackage{algorithm,algorithmic} 
+\usepackage{fontspec}
+% other packages
+\usepackage{latexsym,amsmath,xcolor,multicol,booktabs,calligra,fixdif}
+\usepackage{graphicx,pstricks,listings,stackengine,threeparttable,multirow}
+\usepackage{times}
+
+\usepackage{tikz}
+\usepackage{pgf}
+\usepackage{pgfpages}
+\usepackage{gensymb}
+%\usepackage{newtxmath}
+\usepackage[english]{babel}
+%\usepackage[numbers,sort&compress,square,super]{natbib}
+\usepackage{cite}
+\usepackage{breqn}
+% \usepackage{indentfirst} 
+% \setlength{\parindent}{2em}
+\usepackage{caption,tcolorbox,braket}  % 引入 caption 宏包
+\usepackage{pifont}
+\captionsetup{
+    justification=centering,  % 标题居中对齐
+    font=tiny,
+    labelsep=colon,  % 标签和标题之间的分隔符（可选）
+    indention=0pt  % 取消 caption 的缩进
+}
+\usepackage{enumitem}  % For customizing lists
+\linespread{1.25} % 设置1.5倍行距
+\usepackage{ragged2e}
+% \usepackage{algorithm,algorithmic} 
+\justifying\let\raggedright\justifying
+\setbeamertemplate{bibliography item}[text]
+\newcommand{\upcite}[1]{\textsuperscript{\textsuperscript{\cite{#1}}}}
+
+\usetikzlibrary{tikzmark}
+% \tcbuselibrary{skins, breakable, theorems}
+\tcbuselibrary{most}
+\newtcbtheorem[number within=section]{aim}{}%
+  {enhanced, breakable,
+    colback = deepblue!10, colframe = deepblue, colbacktitle = deepblue,
+    attach boxed title to top left = {yshift = -2.5mm, xshift = 5mm},
+    boxed title style = {sharp corners},
+    fonttitle = \sffamily\bfseries, separator sign = {~}}{qst}
+
+\author[李四]{李四}
+
+\title{季度工作报告通用PPT模版}
+\subtitle{框架完整的年终总结、工作汇报、述职报告PPT模版}
+\institute[核物理基础研究室]{核物理基础研究室}
+\date{\today}
+\usepackage{dlut}
+
+% defs
+\def\cmd#1{\texttt{\color{red}\footnotesize $\backslash$#1}}
+\def\env#1{\texttt{\color{blue}\footnotesize #1}}
+\definecolor{deepblue}{RGB}{51,70,139}
+\definecolor{deepred}{rgb}{0.6,0,0}
+\definecolor{deepgreen}{rgb}{0,0.5,0}
+\definecolor{halfgray}{gray}{0.55}
+
+\lstset{
+    basicstyle=\ttfamily\small,
+    keywordstyle=\bfseries\color{deepblue},
+    emphstyle=\ttfamily\color{deepred},    % Custom highlighting style
+    stringstyle=\color{deepgreen},
+    numbers=left,
+    numberstyle=\small\color{halfgray},
+    rulesepcolor=\color{red!20!green!20!blue!20},
+    frame=shadowbox,
+}   
+
+% 设置英文字体为 Times New Roman
+%\setmainfont{Times New Roman}
+
+\begin{document}
+
+\begin{frame}[plain]
+    \titlepage
+\end{frame}
+
+\maketotalcontents
+
+% ===================== Section 1 =====================
+\setsectionsubtitle{Template Overview}
+\section{模板介绍}
+
+\begin{frame}{文件结构与编译方式}
+\begin{columns}[T]
+\begin{column}{0.50\textwidth}
+\begin{aim*}{模板文件清单}{}
+\begin{itemize}[left=0pt,label=\textcolor{deepblue}{\ding{237}}]
+    \item \texttt{slide.tex} \enspace 主文档，在此编辑内容
+    \item \texttt{DLUT.sty} \enspace 主题样式，一般无需修改
+    \item \texttt{ref.bib} \enspace 参考文献数据库
+    \item \texttt{logo.png} \enspace 封面右上角徽标
+    \item \texttt{background1.png} \enspace 封面背景横幅
+    \item \texttt{seccon.png} \enspace 章节过渡页背景
+    \item \texttt{pic/logo\_ciae.png} \enspace 页眉徽标
+\end{itemize}
+\end{aim*}
+\end{column}
+\begin{column}{0.46\textwidth}
+\begin{aim*}{编译方式（必须用 XeLaTeX）}{}
+模板使用微软雅黑字体，\textbf{必须}用 XeLaTeX 编译。目录、TikZ 覆盖层等交叉引用需多次编译才能正确定位，\textbf{推荐}使用 \texttt{latexmk} 自动处理：
+\medskip
+
+\texttt{\small latexmk -xelatex slide.tex}
+\medskip
+
+如手动编译，需连续执行\textbf{三次}：\\[0.2em]
+\texttt{\small xelatex slide.tex}\\[0.2em]
+\texttt{\small xelatex slide.tex}\\[0.2em]
+\texttt{\small xelatex slide.tex}
+\end{aim*}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{封面信息与章节副标题}
+\begin{columns}[T]
+\begin{column}{0.50\textwidth}
+\textbf{封面信息} — 修改 \texttt{slide.tex} 头部的以下命令：
+\medskip
+\begin{tabular}{ll}
+\toprule
+\textbf{命令} & \textbf{作用} \\
+\midrule
+\texttt{\textbackslash author[简称]\{全名\}} & 汇报人姓名 \\
+\texttt{\textbackslash title\{...\}}         & 报告主标题 \\
+\texttt{\textbackslash subtitle\{...\}}      & 报告副标题 \\
+\texttt{\textbackslash institute[简称]\{全称\}} & 单位名称 \\
+\texttt{\textbackslash date\{\textbackslash today\}} & 日期 \\
+\bottomrule
+\end{tabular}
+\end{column}
+\begin{column}{0.46\textwidth}
+\begin{aim*}{章节副标题用法}{}
+在每个 \cmd{section} \textbf{前一行}调用：
+\smallskip
+
+{\small\texttt{\cmd{setsectionsubtitle}\{副标题\}}}\\[0.2em]
+{\small\texttt{\cmd{section}\{章节名称\}}}
+\smallskip
+
+副标题显示在章节过渡页标题下方，适合填写英文对照或简短说明。每节副标题\textbf{相互独立}，章节结束后自动清空。
+\end{aim*}
+\medskip
+\begin{aim*}{致谢页用法}{}
+在正文末尾调用，格式与封面完全一致：
+\smallskip
+
+{\small\texttt{\cmd{makethankspage}}} \quad（默认文字）\\[0.2em]
+{\small\texttt{\cmd{makethankspage}[自定义文字]}}
+\end{aim*}
+\end{column}
+\end{columns}
+\end{frame}
+
+% ===================== Section 2 =====================
+\setsectionsubtitle{Text and Layout}
+\section{内容排版}
+
+\begin{frame}{列表与文本框}
+\begin{columns}[T]
+\begin{column}{0.48\textwidth}
+\textbf{无序列表}
+\begin{itemize}[left=0pt,label=\textcolor{deepblue}{\ding{113}}]
+    \item 使用 \env{itemize} 展示无序条目
+    \item 通过 \texttt{enumitem} 宏包定制样式
+    \begin{itemize}[left=0pt,label=\textcolor{deepblue}{\ding{237}}]
+        \item 支持多级嵌套
+        \item 可自定义 \texttt{label} 符号
+    \end{itemize}
+    \item \textbf{加粗}与\textcolor{tsinghua}{彩色}文字
+\end{itemize}
+\medskip
+\textbf{有序列表}
+\begin{enumerate}[left=0pt, label=\arabic*.]
+    \item 步骤一：修改封面信息
+    \item 步骤二：编写各节内容
+    \item 步骤三：XeLaTeX 编译三次
+\end{enumerate}
+\end{column}
+\begin{column}{0.48\textwidth}
+\begin{aim*}{浅色文本框 \texttt{aim*}}{}
+适合展示研究目标、关键结论等重要信息。支持内嵌列表与公式，背景为浅蓝色，与正文形成层次对比。
+\end{aim*}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{分栏布局与三线表}
+\begin{columns}[T]
+\begin{column}{0.54\textwidth}
+\textbf{表格示例（\texttt{booktabs} 三线表）}
+\medskip
+\begin{table}
+\centering
+\caption{常用环境速查}
+\begin{tabular}{llc}
+\toprule
+\textbf{环境 / 命令} & \textbf{用途} & \textbf{所需宏包} \\
+\midrule
+\env{columns}    & 多栏并排布局   & beamer 内置 \\
+\env{aim*}       & 浅色高亮文本框 & tcolorbox   \\
+\env{lstlisting} & 代码高亮       & listings    \\
+\env{algorithm}  & 算法伪代码     & algorithm   \\
+\bottomrule
+\end{tabular}
+\end{table}
+\end{column}
+\begin{column}{0.42\textwidth}
+\begin{aim*}{\texttt{columns} 对齐选项}{}
+\begin{itemize}[left=0pt,label=\textcolor{deepblue}{\ding{237}}]
+    \item \texttt{[T]} — 顶端对齐（推荐）
+    \item \texttt{[c]} — 垂直居中
+    \item \texttt{[b]} — 底端对齐
+\end{itemize}
+\medskip
+各栏宽度之和建议不超过 \texttt{0.96\textbackslash textwidth}，过宽会导致内容溢出。
+\end{aim*}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{配色说明}
+\begin{columns}[T]
+\begin{column}{0.50\textwidth}
+\begin{aim*}{主题色定义}{}
+\begin{tabular}{lll}
+\toprule
+\textbf{颜色名} & \textbf{RGB 值} & \textbf{示例} \\
+\midrule
+\texttt{deepblue}  & (51, 70, 139)  & \textcolor{deepblue}{\rule{1.2em}{0.8em}} \\
+\texttt{deepred}   & (153, 0, 0)    & \textcolor{deepred}{\rule{1.2em}{0.8em}} \\
+\texttt{deepgreen} & (0, 128, 0)    & \textcolor{deepgreen}{\rule{1.2em}{0.8em}} \\
+\texttt{halfgray}  & gray 55\%      & \textcolor{halfgray}{\rule{1.2em}{0.8em}} \\
+\bottomrule
+\end{tabular}
+\end{aim*}
+\end{column}
+\begin{column}{0.46\textwidth}
+\begin{aim*}{颜色使用说明}{}
+\begin{itemize}[left=0pt,label=\textcolor{deepblue}{\ding{237}}]
+    \item \texttt{deepblue} — 主题蓝色，取自\texttt{logo.png} 的主色调 RGB(51,70,139)，用于文本框边框与列表符号
+    \item \texttt{deepred} — 深红色，用于强调词及代码自定义高亮
+    \item \texttt{deepgreen} — 深绿色，用于代码字符串
+    \item \texttt{halfgray} — 浅灰色，用于代码行号
+\end{itemize}
+\medskip
+如需扩展配色，在 \texttt{slide.tex} 头部追加：\\[0.3em]
+{\small\texttt{\cmd{definecolor}\{mycolor\}\{RGB\}\{r,g,b\}}}\\[0.2em]
+即可在全文通过 \cmd{textcolor}\texttt{\{mycolor\}} 调用。
+\end{aim*}
+\end{column}
+\end{columns}
+\end{frame}
+
+% ===================== Section 3 =====================
+\setsectionsubtitle{Math and Code}
+\section{数学与代码}
+
+\begin{frame}{数学公式}
+\begin{columns}[T]
+\begin{column}{0.50\textwidth}
+\textbf{行内公式：} $E = mc^2$，$\hat{H}\psi = E\psi$
+\medskip
+
+\textbf{独立公式：}
+\[
+\bar{x} = \frac{1}{N}\sum_{i=1}^{N} x_i,\quad
+\sigma^2 = \frac{1}{N}\sum_{i=1}^{N}(x_i - \bar{x})^2
+\]
+
+\textbf{多行对齐公式：}
+\begin{align}
+(a+b)^2 &= a^2 + 2ab + b^2 \notag\\
+(a-b)^2 &= a^2 - 2ab + b^2 \notag
+\end{align}
+\end{column}
+\begin{column}{0.46\textwidth}
+\begin{algorithm}[H]
+\caption{梯度下降法}
+\begin{algorithmic}[1]
+\STATE 初始化参数 $\theta$，学习率 $\alpha$
+\WHILE{未收敛}
+    \STATE 计算梯度 $g \leftarrow \nabla_\theta L(\theta)$
+    \STATE 更新参数 $\theta \leftarrow \theta - \alpha g$
+\ENDWHILE
+\end{algorithmic}
+\end{algorithm}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{代码高亮}
+\begin{columns}[T]
+\begin{column}{0.50\textwidth}
+\textbf{Python 示例（\env{lstlisting}）：}
+\begin{lstlisting}[language=Python, caption=卡方统计量]
+import numpy as np
+
+def chi_square(obs, exp):
+    return np.sum(
+        (obs - exp)**2 / exp)
+\end{lstlisting}
+\end{column}
+\begin{column}{0.46\textwidth}
+\begin{aim*}{lstlisting 常用选项}{}
+\begin{itemize}[left=0pt,label=\textcolor{deepblue}{\ding{237}}]
+    \item \texttt{language=} — 指定语言\\
+    支持 Python、C、TeX 等
+    \item \texttt{caption=} — 代码标题
+    \item \texttt{numbers=left} — 显示行号
+    \item \texttt{basicstyle=} — 字体样式
+\end{itemize}
+\end{aim*}
+\end{column}
+\end{columns}
+\end{frame}
+
+% ===================== Section 4 =====================
+\setsectionsubtitle{Summary}
+\section{总结}
+
+\begin{frame}{使用要点速查}
+\begin{columns}[T]
+\begin{column}{0.48\textwidth}
+\begin{aim*}{定制清单}{}
+\begin{itemize}[left=0pt,label=\textcolor{deepblue}{\ding{52}}]
+    \item 替换 \texttt{logo.png} 为本单位徽标
+    \item 替换 \texttt{background1.png} 封面横幅
+    \item 替换 \texttt{pic/logo\_ciae.png} 页眉徽标
+    \item 修改 \cmd{title}、\cmd{author}、\cmd{institute}
+    \item 按需增删 \cmd{section}
+    \item 每节前用 \cmd{setsectionsubtitle} 设副标题
+\end{itemize}
+\end{aim*}
+\end{column}
+\begin{column}{0.48\textwidth}
+\begin{aim*}{编译注意事项}{}
+\begin{itemize}[left=0pt,label=\textcolor{deepblue}{\ding{237}}]
+    \item 必须使用 \textbf{XeLaTeX} 编译，\textbf{推荐} \texttt{latexmk -xelatex} 自动多次编译
+    \item 手动编译时首次或修改结构后需执行\textbf{三次}
+    \item 含参考文献时运行顺序：\\[0.3em]
+    {\small\texttt{xelatex $\to$ bibtex $\to$ xelatex $\to$ xelatex}}
+    \item 编译报错时优先检查特殊字符\\
+    是否正确转义（如 \texttt{\textbackslash\%}、\texttt{\textbackslash\$}）
+\end{itemize}
+\end{aim*}
+\end{column}
+\end{columns}
+\end{frame}
+
+\makethankspage[请各位老师批评指正！]
+
+\end{document}

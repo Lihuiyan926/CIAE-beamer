@@ -1,0 +1,261 @@
+\mode<presentation>
+
+\newif\ifbeamer@secheader
+\beamer@secheaderfalse
+
+%\DeclareOptionBeamer{secheader}{\beamer@secheadertrue}
+\ProcessOptionsBeamer
+\RequirePackage{tikz}
+\useoutertheme[footline=authorinstitutetitle,subsection=false]{miniframes}
+\useinnertheme{circles}
+\makeatletter % [add curpage/total page at the bottom](http://tex.stackexchange.com/questions/100838/beamer-dresden-theme-miniframes-appeareance-and-frame-number-insertion)
+\AtBeginDocument{
+    \renewcommand{\today}{\the\year.\two@digits{\month}.\two@digits{\day}}
+}
+\newcommand{\frameofframes}{/}
+\newcommand{\setframeofframes}[1]{\renewcommand{\frameofframes}{#1}}
+
+\newfontfamily\WRYaHei{微软雅黑}%新建微软雅黑字体，注意，使用\newfontfamily命令创建的字体只能用于英文。fontspec宏包提供了\fontspec、\setmainfont、\setsansfont、\setmonofont、\newfontfamily命令，当使用ctex宏包的时候，这些命令只对英文和阿拉伯数字有效。而ctex所使用的xeCJK宏包里所提供的\setCJKmainfont、\setCJKsansfont、\setCJKmonofont、\setCJKmonofont、\setCJKmonofont、\setCJKfamilyfont、\setCJKfallbackfamilyfont则只对CJK字体有效。
+\newfontfamily\TahomaFont{Tahoma}
+\setCJKfamilyfont{WRYaHei}{微软雅黑}%新建微软雅黑字体，注意，使用\setCJKfamilyfont命令创建的字体只能用于中文。
+\newcommand{\WRYaHeiZH}{\WRYaHei\CJKfamily{WRYaHei}}%新建一个命令，对中文和英文都使用微软雅黑
+\setCJKmainfont{微软雅黑}
+\setsansfont{Times New Roman}
+
+\defbeamertemplate{footline}{NGEGFootlineTemplate}{%
+	\leavevmode% 离开vmode，也就是离开竖直模式，进入水平模式
+	\hbox{%
+		\begin{beamercolorbox}[wd=.2\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+			\ifnum \the\value{page}>1 \usebeamerfont{author in head/foot}\insertshortauthor\fi
+		\end{beamercolorbox}%
+		\begin{beamercolorbox}[wd=.6\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+			\ifnum \the\value{page}>1 \usebeamerfont{title in head/foot}\insertshorttitle\fi
+		\end{beamercolorbox}%
+		\begin{beamercolorbox}[wd=0.2\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+			\ifnum \the\value{page}>1 \insertframenumber{} / \inserttotalframenumber\fi
+	\end{beamercolorbox}}%
+%	\vskip0pt%
+}
+\setbeamertemplate{footline}[NGEGFootlineTemplate]
+
+% \defbeamertemplate{frametitle}{CiaeFrametitleTemplate}
+% {%
+% 	\nointerlineskip%去掉行间的粘连
+% 	\hbox{%
+% 		\begin{beamercolorbox}[wd=\paperwidth,ht=2.5ex,dp=1ex]{frametitle_logo}
+%         \hspace{0ex} \raisebox{-0.5ex}{\includegraphics[height=0.6cm]{pic/logo_ciae.png}}
+%         \hfill  \insertframetitle \hspace{1cm}
+%     \end{beamercolorbox}
+%   }%
+% }
+% \setbeamertemplate{frametitle}[CiaeFrametitleTemplate]
+\makeatother
+
+\setbeamertemplate{frametitle}
+{
+    \nointerlineskip
+    \begin{beamercolorbox}[wd=\paperwidth,ht=2.5ex,dp=1ex]{frametitle}
+        \hspace{0.8ex} \raisebox{-0.5ex}{\includegraphics[height=0.6cm]{pic/logo_ciae.png}}
+        \hfill  \insertframetitle \hspace{1cm}
+    \end{beamercolorbox}
+}
+
+
+%\useoutertheme{default}
+%\useinnertheme[shadow=true]{rounded}
+% \xdefinecolor{tsinghua}{RGB}{3, 76, 162}  %RGB#034CA2
+\xdefinecolor{tsinghua}{RGB}{0, 78, 162}  %RGB#004EA2
+\setbeamercolor{footline}{bg=tsinghua}
+\setbeamercolor{frametitle}{bg=tsinghua,fg=white}
+\setbeamercolor{title}{bg=}
+\setbeamercolor{subtitle}{bg=, fg=white} % 如果有副标题的话
+
+%常规大小
+\renewcommand{\normalsize}{\fontsize{8}{8}\selectfont}
+%标题字体
+\setbeamerfont{title}{family=\WRYaHeiZH,size=\fontsize{24}{24}\selectfont,series=\bfseries}%设置标题的字体为微软雅黑，加粗，字号为54pt
+\setbeamerfont{subtitle}{family=\WRYaHeiZH,size=\fontsize{8}{8}\selectfont,series=\mdseries}%设置副标题的字体为微软雅黑，常规，字号为19pt
+%机构字体
+\setbeamerfont{institute}{family=\WRYaHeiZH,size=\fontsize{9}{9}\selectfont,series=\mdseries}%设置机构的字体为微软雅黑，加粗，字号为20pt
+%作者字体
+\setbeamerfont{author}{parent=institute}%设置作者的字体和机构的字体相同
+%日期字体
+\setbeamerfont{date}{parent=institute}%设置日期的字体和机构的字体相同
+%list元素的字体
+% \setbeamerfont{item projected}{size=\fontsize{8}{8}\selectfont,series=\mdseries}
+% \setbeamerfont{itemize/enumerate subbody}{family=\kaishu,size=\fontsize{8}{8}\selectfont,series=\mdseries}
+%页眉字体
+\setbeamerfont{headline}{size=\fontsize{5}{5}\selectfont}
+%页脚字体
+\setbeamerfont{footline}{parent=headline}%设置页脚的字体等于页眉字体
+%盒子环境
+%标题字体
+\setbeamerfont{block title}{size=\fontsize{10}{10}\selectfont,series=\bfseries}%设置盒子环境的标题的字体为微软雅黑，加粗，字号为36p
+
+\setbeamerfont{frametitle}{family=\WRYaHeiZH,size=\large,series=\bfseries}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{bibliography item}[text]
+\setbeamertemplate{caption}[numbered]
+\setbeamerfont{footnote}{size=\fontsize{5}{5}\selectfont}
+\setbeamerfont{caption}{size=\scriptsize}
+
+\setbeamercolor{palette primary}{use=structure,fg=white,bg=structure.fg}
+\setbeamercolor{palette secondary}{use=structure,fg=white,bg=structure.fg!75!black}
+\setbeamercolor{palette tertiary}{use=structure,fg=white,bg=structure.fg!50!black}
+\setbeamercolor{palette quaternary}{fg=white,bg=structure.fg!50!black}
+%\setbeamercolor*{sidebar}{use=structure,bg=structure.fg}
+\setbeamercolor{titlelike}{parent=palette primary}
+
+%% try
+\setbeamercolor{block title}{bg=tsinghua,fg=white}
+\setbeamercolor*{block title example}{use={normal text,example text},bg=white,fg=tsinghua}
+\setbeamercolor{block body example}{bg=tsinghua!25}
+\setbeamercolor{fine separation line}{}
+\setbeamercolor{item projected}{fg=white}
+\setbeamercolor{palette sidebar primary}{use=normal text,fg=normal text.fg}
+\setbeamercolor{palette sidebar quaternary}{use=structure,fg=structure.fg}
+\setbeamercolor{palette sidebar secondary}{use=structure,fg=structure.fg}
+\setbeamercolor{palette sidebar tertiary}{use=normal text,fg=normal text.fg}
+%\setbeamercolor{palette sidebar quaternary}{fg=white}
+\setbeamercolor{section in sidebar}{fg=brown}
+\setbeamercolor{section in sidebar shaded}{fg=grey}
+\setbeamercolor{separation line}{}
+\setbeamercolor{sidebar}{bg=tsinghua}
+\setbeamercolor{sidebar}{parent=palette primary}
+\setbeamercolor{structure}{fg=tsinghua}
+\setbeamercolor{subsection in sidebar}{fg=brown}
+\setbeamercolor{subsection in sidebar shaded}{fg=grey}
+\newcommand{\maketotalcontents}{
+    \begin{frame}
+        \vfill
+        \noindent
+        \begin{minipage}[c]{0.4\textwidth}
+            \centering
+            {\WRYaHeiZH\fontsize{45}{50}\selectfont\textcolor{tsinghua}{目录}}\\[0.6cm]
+            {\TahomaFont\fontsize{14}{16}\selectfont\textcolor{tsinghua}{\textbf{CONTENTS}}}
+        \end{minipage}%
+        \hfill
+        \begin{minipage}[c]{0.52\textwidth}
+            \fontsize{11}{14}\selectfont
+            \addtolength{\baselineskip}{3.0ex}
+            \tableofcontents[sectionstyle=show/show, subsectionstyle=hide]
+        \end{minipage}
+        \vfill
+    \end{frame}
+}
+
+
+% 致谢页，用法：\makethankspage 或 \makethankspage[自定义文字]
+\newcommand{\makethankspage}[1][谢谢观看！]{%
+    \section*{}
+    \begin{frame}[plain]
+        \begin{tikzpicture}[remember picture, overlay]
+            \node[anchor=north east, xshift=-0.2cm, yshift=-0.4cm]
+                at (current page.north east) {%
+                \includegraphics[height=1.4cm]{pic/logo.png}};
+            \node[yshift=0.4cm] at (current page.center) {%
+                \includegraphics[width=\paperwidth]{pic/background1.png}};
+            \node[xshift=0.5cm, yshift=0.3cm] at (current page.center) {%
+                \begin{minipage}{0.85\paperwidth}
+                    \centering
+                    {\usebeamerfont{title}\usebeamercolor[fg]{title}#1}
+                \end{minipage}};
+        \end{tikzpicture}
+        \vspace{4.0cm}
+        \begin{flushright}
+            {\usebeamerfont{author}\textcolor{black!65}{汇报人：\insertauthor}%
+            \hspace{1cm}%
+            \usebeamerfont{date}\textcolor{black!65}{时间：\insertdate}\par}
+        \end{flushright}
+    \end{frame}%
+}
+
+% 章节页副标题，用法：在 \section 前调用 \setsectionsubtitle{文本}
+\newcommand{\sectionpagesubtitle}{}
+\newcommand{\setsectionsubtitle}[1]{\renewcommand{\sectionpagesubtitle}{#1}}
+
+\AtBeginSection[]{%
+    \usebackgroundtemplate{%
+        \includegraphics[width=\paperwidth,height=\paperheight]{pic/seccon.png}%
+    }%
+    \begin{frame}[plain]
+        \begin{tikzpicture}[remember picture, overlay]
+            % 节编号：调节 xshift/yshift 移动位置（正=右/上，负=左/下）
+            \node[anchor=center]
+                at ([xshift=-0.1cm, yshift=1.2cm]current page.center) {%
+                {\WRYaHeiZH\fontsize{45}{45}\selectfont\bfseries\textcolor{white}{%
+                    \ifnum\value{section}<10 0\fi\arabic{section}}}%
+            };
+            % 节标题：xshift 控制左边缘的横向位置
+            \node[anchor=west]
+                at ([xshift=1.9cm, yshift=0.9cm]current page.center) {%
+                \begin{minipage}{0.45\paperwidth}
+                    \raggedright
+                    {\WRYaHeiZH\fontsize{20}{20}\selectfont\bfseries\textcolor{white}{\insertsection}}\\[0.3cm]
+                    {\WRYaHeiZH\fontsize{10}{10}\selectfont\textcolor{white}{\sectionpagesubtitle}}%
+                \end{minipage}%
+            };
+        \end{tikzpicture}
+    \end{frame}%
+    \usebackgroundtemplate{}%
+    \renewcommand{\sectionpagesubtitle}{}%
+}
+
+\defbeamertemplate*{title page}{customized}[1][]
+{
+  % 使用 TikZ 进行绝对定位
+  \begin{tikzpicture}[remember picture, overlay]
+  
+    % 第一部分：右上角的 Logo
+    % anchor=north east 表示以图片的右上角对齐页面的右上角
+    % xshift 和 yshift 用于控制 Logo 距离页面边缘的留白大小
+    \node[anchor=north east, xshift=-0.2cm, yshift=-0.4cm] at (current page.north east) {
+        \includegraphics[height=1.4cm]{pic/logo.png} % 请根据您的 logo 比例调整高度或宽度
+    };
+
+    % 第二部分：横幅背景图 bc1.png (中间偏上 1cm)
+    \node[yshift=0.4cm] at (current page.center) {
+        \includegraphics[width=\paperwidth]{pic/background1.png} 
+    };
+    
+    % 第三部分：标题和副标题文字 (右对齐)
+    \node[xshift=0.5cm,yshift=0.3cm] at (current page.center) {
+        \begin{minipage}{0.85\paperwidth} 
+            \raggedleft % 强制右对齐
+            \usebeamerfont{title}\usebeamercolor[fg]{title}\inserttitle\par
+            \ifx\insertsubtitle\@empty\else
+                \vskip0.8em
+                \usebeamerfont{subtitle}\usebeamercolor[fg]{subtitle}\insertsubtitle\par
+            \fi
+        \end{minipage}
+    };
+  \end{tikzpicture}
+  
+  % --- 下半部分：机构、汇报人及时间 ---
+  \vspace{4.0cm} % 向下推移，避开上方的 TikZ 悬浮层
+  
+  \begin{flushright}
+    % 插入机构信息（如果您在主文档里定义了 \institute）
+    % \ifx\insertinstitute\@empty\else
+    %     \usebeamerfont{institute}\insertinstitute\par
+    %     \vspace{0.4cm} % 机构与汇报人之间的垂直间距
+    % \fi
+    
+    % 将汇报人和日期放在同一行
+    {
+      \usebeamerfont{author}\textcolor{black!65}{汇报人：\insertauthor}
+      \hspace{1cm} 
+      \usebeamerfont{date}\textcolor{black!65}{时间：\insertdate}\par
+    }
+  \end{flushright}
+}
+% \RequirePackage[boxruled, algochapter, lined, linesnumbered]{algorithm2e}
+% \let\chapter\section
+% \RequirePackage{ulem}
+% \SetKwRepeat{Do}{do}{while}
+
+
+
+
+\mode
+<all>
